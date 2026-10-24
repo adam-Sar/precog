@@ -8,6 +8,25 @@
 
 ---
 
+## 💡 About Precog
+
+Traditional caching is **reactive**: your server waits for a user to click a link, suffers a cache miss, and forces the user to wait while querying the database.
+
+**Precog is proactive:**
+1. **Ultra-Fast Cache (< 5ns)**: Answers common requests directly from zero-allocation atomic memory slots.
+2. **Stampede Defense**: If 50 users request the same missing resource simultaneously, Precog collapses them into **one** backend query.
+3. **Markov Predictor**: Learns navigation paths in real time (e.g., *"85% of users browsing `/products` click `/checkout` next"*).
+4. **Autonomous Pre-Warming**: Background workers quietly pre-populate the predicted endpoint **before the user even clicks**.
+
+> **Result**: When the user clicks the link, data is already waiting in memory. **Perceived latency: 0ms.** ⚡  
+> 📖 *For a detailed explanation, read the complete [**About Guide (ABOUT.md)**](ABOUT.md).*
+
+### 📐 High-Level Architecture
+
+![Precog High-Level Architecture](assets/social/precog-architecture.png)
+
+---
+
 ## What it does
 
 - **Caches safe responses** (`GET`/`HEAD`) in a two-tier store: a lock-free direct-mapped L1 (atomic pointer slots, ~5 ns hits, zero allocations) backed by a pointer-free sharded byte-arena L2 (256 shards, no GC scanning of the index).

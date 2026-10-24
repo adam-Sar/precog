@@ -1,0 +1,277 @@
+"""
+Precog LinkedIn Presentation Slide Generator (Professional, Editorial, Non-AI)
+Designed to look like a high-end Figma editorial slide for LinkedIn tech leaders.
+Dimensions: 2400 x 1350 (16:9 Retina)
+"""
+
+import os
+import subprocess
+import sys
+
+OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
+SVG_PATH = os.path.join(OUTPUT_DIR, "precog-linkedin-presentation.svg")
+PNG_PATH = os.path.join(OUTPUT_DIR, "precog-linkedin-presentation.png")
+
+def build_svg():
+    width = 2400
+    height = 1350
+    
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap');
+      
+      * {{
+        box-sizing: border-box;
+      }}
+      
+      text {{
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
+      }}
+      
+      .mono {{
+        font-family: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+      }}
+      
+      .glow-card {{
+        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+      }}
+    </style>
+    
+    <!-- Linear Gradients -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="50%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#090D16" />
+    </linearGradient>
+
+    <linearGradient id="primary-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#EC4899" />
+    </linearGradient>
+
+    <linearGradient id="cyan-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+
+    <linearGradient id="green-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Subtle Dot Pattern -->
+    <pattern id="grid-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1.2" fill="#334155" opacity="0.3" />
+    </pattern>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="{width}" height="{height}" fill="url(#bg-grad)" />
+  <rect width="{width}" height="{height}" fill="url(#grid-pattern)" />
+
+  <!-- Ambient Glow Blobs -->
+  <circle cx="300" cy="200" r="350" fill="#6366F1" opacity="0.12" filter="blur(90px)" />
+  <circle cx="2100" cy="800" r="450" fill="#06B6D4" opacity="0.1" filter="blur(110px)" />
+  <circle cx="1200" cy="1200" r="400" fill="#10B981" opacity="0.08" filter="blur(100px)" />
+
+  <!-- Outer Border Frame -->
+  <rect x="30" y="30" width="2340" height="1290" rx="32" fill="none" stroke="#1E293B" stroke-width="2" />
+
+  <!-- ==================== TOP NAVIGATION / BRAND HEADER ==================== -->
+  <g transform="translate(100, 80)">
+    <!-- Brand Pill -->
+    <rect x="0" y="0" width="160" height="44" rx="22" fill="#1E1B4B" stroke="#4338CA" stroke-width="1.5" />
+    <text x="80" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#A5B4FC" letter-spacing="0.05em">PRECOG</text>
+    
+    <text x="180" y="30" font-size="20" font-weight="600" fill="#64748B">Open Source Go Caching Engine</text>
+
+    <!-- Top Right Badges -->
+    <g transform="translate(1820, 0)">
+      <rect x="0" y="0" width="380" height="44" rx="12" fill="#1E293B" stroke="#334155" stroke-width="1" />
+      <text x="190" y="28" text-anchor="middle" class="mono" font-size="17" font-weight="600" fill="#94A3B8">
+        github.com/adam-Sar/precog
+      </text>
+    </g>
+  </g>
+
+  <!-- ==================== MAIN HERO HEADLINE ==================== -->
+  <g transform="translate(100, 190)">
+    <text x="0" y="55" font-size="58" font-weight="800" fill="#FFFFFF" letter-spacing="-0.03em">
+      What if your backend could <tspan fill="url(#primary-grad)">predict the future?</tspan>
+    </text>
+    <text x="0" y="115" font-size="26" font-weight="500" fill="#94A3B8" letter-spacing="-0.01em">
+      Traditional caches wait for a user to click. Precog anticipates user navigation and pre-warms responses ahead of time.
+    </text>
+  </g>
+
+  <!-- ==================== SIDE-BY-SIDE COMPARISON CARDS ==================== -->
+  
+  <!-- LEFT CARD: TRADITIONAL CACHING -->
+  <g transform="translate(100, 370)" class="glow-card">
+    <rect x="0" y="0" width="1070" height="580" rx="24" fill="#0F172A" stroke="#334155" stroke-width="2" />
+    
+    <!-- Header Pill -->
+    <g transform="translate(45, 45)">
+      <rect x="0" y="0" width="240" height="36" rx="18" fill="#450A0A" stroke="#DC2626" stroke-width="1" />
+      <text x="120" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#F87171" letter-spacing="0.06em">TRADITIONAL CACHE</text>
+      
+      <text x="0" y="90" font-size="34" font-weight="800" fill="#F1F5F9">Reactive &amp; Passive</text>
+      <text x="0" y="128" font-size="19" font-weight="500" fill="#64748B">Waits until the user clicks, resulting in latency and cache stampedes.</text>
+    </g>
+
+    <!-- Flow Steps (Traditional) -->
+    <g transform="translate(45, 230)">
+      <!-- Step 1 -->
+      <rect x="0" y="0" width="980" height="74" rx="14" fill="#1E293B" stroke="#334155" stroke-width="1" />
+      <text x="30" y="44" class="mono" font-size="18" font-weight="700" fill="#94A3B8">01</text>
+      <text x="80" y="44" font-size="19" font-weight="600" fill="#E2E8F0">User clicks "/checkout" link in browser</text>
+      <text x="940" y="44" text-anchor="end" font-size="16" font-weight="600" fill="#64748B">T = 0ms</text>
+
+      <!-- Step 2 -->
+      <rect x="0" y="95" width="980" height="74" rx="14" fill="#1E293B" stroke="#334155" stroke-width="1" />
+      <text x="30" y="139" class="mono" font-size="18" font-weight="700" fill="#EF4444">02</text>
+      <text x="80" y="139" font-size="19" font-weight="600" fill="#FCA5A5">Cache Miss: Not in memory, triggers full database query</text>
+      <text x="940" y="139" text-anchor="end" font-size="16" font-weight="600" fill="#EF4444">Cache Miss</text>
+
+      <!-- Step 3 -->
+      <rect x="0" y="190" width="980" height="74" rx="14" fill="#1E293B" stroke="#334155" stroke-width="1" />
+      <text x="30" y="234" class="mono" font-size="18" font-weight="700" fill="#EF4444">03</text>
+      <text x="80" y="234" font-size="19" font-weight="600" fill="#94A3B8">User stares at loading spinner waiting for server execution</text>
+      <text x="940" y="234" text-anchor="end" font-size="16" font-weight="700" fill="#EF4444">+ 250ms latency</text>
+    </g>
+
+    <!-- Bottom summary tag -->
+    <g transform="translate(45, 520)">
+      <text x="0" y="0" font-size="17" font-weight="600" fill="#EF4444">❌ High perceived latency • Database vulnerable to thundering herd spikes</text>
+    </g>
+  </g>
+
+  <!-- RIGHT CARD: PRECOG PREDICTIVE CACHING -->
+  <g transform="translate(1230, 370)" class="glow-card">
+    <rect x="0" y="0" width="1070" height="580" rx="24" fill="#0F172A" stroke="#4F46E5" stroke-width="2.5" />
+    
+    <!-- Top Accent Bar -->
+    <path d="M 0 24 Q 0 0 24 0 L 1046 0 Q 1070 0 1070 24 L 1070 12 L 0 12 Z" fill="url(#primary-grad)" />
+
+    <!-- Header Pill -->
+    <g transform="translate(45, 45)">
+      <rect x="0" y="0" width="270" height="36" rx="18" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5" />
+      <text x="135" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#A5B4FC" letter-spacing="0.06em">PRECOG ENGINE (GO)</text>
+      
+      <text x="0" y="90" font-size="34" font-weight="800" fill="#FFFFFF">Autonomous &amp; Predictive</text>
+      <text x="0" y="128" font-size="19" font-weight="500" fill="#94A3B8">Infers upcoming requests and preloads them before user action.</text>
+    </g>
+
+    <!-- Flow Steps (Precog) -->
+    <g transform="translate(45, 230)">
+      <!-- Step 1 -->
+      <rect x="0" y="0" width="980" height="74" rx="14" fill="#131D33" stroke="#253556" stroke-width="1" />
+      <text x="30" y="44" class="mono" font-size="18" font-weight="700" fill="#818CF8">01</text>
+      <text x="80" y="44" font-size="19" font-weight="600" fill="#E2E8F0">User browsing "/products" ➔ Markov matrix predicts "/checkout" (85%)</text>
+      <text x="940" y="44" text-anchor="end" font-size="16" font-weight="600" fill="#A5B4FC">Inference</text>
+
+      <!-- Step 2 -->
+      <rect x="0" y="95" width="980" height="74" rx="14" fill="#131D33" stroke="#253556" stroke-width="1" />
+      <text x="30" y="139" class="mono" font-size="18" font-weight="700" fill="#34D399">02</text>
+      <text x="80" y="139" font-size="19" font-weight="600" fill="#6EE7B7">Background worker speculatively pre-warms cache &amp; browser store</text>
+      <text x="940" y="139" text-anchor="end" font-size="16" font-weight="600" fill="#34D399">Pre-warmed</text>
+
+      <!-- Step 3 -->
+      <rect x="0" y="190" width="980" height="74" rx="14" fill="#064E3B" stroke="#059669" stroke-width="1.5" />
+      <text x="30" y="234" class="mono" font-size="18" font-weight="700" fill="#34D399">03</text>
+      <text x="80" y="234" font-size="19" font-weight="700" fill="#ECFDF5">User clicks "/checkout" ➔ Response served instantly from cache!</text>
+      <text x="940" y="234" text-anchor="end" font-size="17" font-weight="800" fill="#34D399">⚡ 0ms wait</text>
+    </g>
+
+    <!-- Bottom summary tag -->
+    <g transform="translate(45, 520)">
+      <text x="0" y="0" font-size="17" font-weight="600" fill="#34D399">✓ Zero perceived user wait • Request coalescing defends backend against traffic spikes</text>
+    </g>
+  </g>
+
+  <!-- ==================== 3 HIGHLIGHT METRICS AT BOTTOM ==================== -->
+  <g transform="translate(100, 1000)">
+    <!-- Metric 1 -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="700" height="240" rx="20" fill="#0F172A" stroke="#1E293B" stroke-width="1.5" />
+      <text x="45" y="65" class="mono" font-size="44" font-weight="800" fill="#38BDF8">&lt; 5.0 ns</text>
+      <text x="45" y="110" font-size="22" font-weight="700" fill="#F8FAFC">L1 Atomic Slot Hit Latency</text>
+      <text x="45" y="150" font-size="17" font-weight="500" fill="#94A3B8">
+        Lock-free direct-mapped pointer slots with 0 heap allocations and zero GC scanning.
+      </text>
+    </g>
+
+    <!-- Metric 2 -->
+    <g transform="translate(750, 0)">
+      <rect x="0" y="0" width="700" height="240" rx="20" fill="#0F172A" stroke="#1E293B" stroke-width="1.5" />
+      <text x="45" y="65" class="mono" font-size="44" font-weight="800" fill="#A855F7">100% Defense</text>
+      <text x="45" y="110" font-size="22" font-weight="700" fill="#F8FAFC">In-Flight Request Coalescing</text>
+      <text x="45" y="150" font-size="17" font-weight="500" fill="#94A3B8">
+        Collapses concurrent duplicate requests across 64 shards so only one query touches the DB.
+      </text>
+    </g>
+
+    <!-- Metric 3 -->
+    <g transform="translate(1500, 0)">
+      <rect x="0" y="0" width="700" height="240" rx="20" fill="#0F172A" stroke="#1E293B" stroke-width="1.5" />
+      <text x="45" y="65" class="mono" font-size="44" font-weight="800" fill="#34D399">0 ms Perceived</text>
+      <text x="45" y="110" font-size="22" font-weight="700" fill="#F8FAFC">End-to-End Speculative Preload</text>
+      <text x="45" y="150" font-size="17" font-weight="500" fill="#94A3B8">
+        Primes server memory and browser CacheStorage with W3C Speculation Rules.
+      </text>
+    </g>
+  </g>
+
+</svg>"""
+    return svg
+
+def main():
+    svg_content = build_svg()
+    with open(SVG_PATH, "w", encoding="utf-8") as f:
+        f.write(svg_content)
+    print(f"SVG written to: {SVG_PATH}")
+
+    # Render PNG using headless Chrome
+    chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+    if not os.path.exists(chrome_path):
+        chrome_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+    
+    temp_png = r"C:\Users\adams\AppData\Local\Temp\precog_presentation_temp.png"
+    if os.path.exists(temp_png):
+        os.remove(temp_png)
+
+    print("Rendering high-resolution PNG (2400 x 1350) via headless Chrome...")
+    svg_file_url = f"file:///{SVG_PATH.replace(os.sep, '/')}"
+    cmd = [
+        chrome_path,
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--window-size=2400,1350",
+        "--hide-scrollbars",
+        "--run-all-compositor-stages-before-draw",
+        "--virtual-time-budget=2000",
+        f"--screenshot={temp_png}",
+        svg_file_url
+    ]
+    
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"Chrome screenshot failed: {result.stderr}", file=sys.stderr)
+        sys.exit(1)
+
+    import shutil
+    if os.path.exists(temp_png):
+        shutil.copyfile(temp_png, PNG_PATH)
+        os.remove(temp_png)
+        print(f"Successfully generated high-resolution PNG: {PNG_PATH}")
+    else:
+        print(f"Error: Screenshot file was not created at {temp_png}", file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
